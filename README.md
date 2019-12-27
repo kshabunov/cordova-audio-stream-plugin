@@ -19,25 +19,33 @@
 
 # cordova-audio-stream-plugin
 
-Forked from https://github.com/keosuofficial/cordova-audio-stream-plugin to add some features required for my project.
+Forked from https://github.com/keosuofficial/cordova-audio-stream-plugin to make it work in my project.
 
-The cordova-plugin-media plugin does not allow to play streaming audio on iOS. This can do that.  
+The popular cordova-plugin-media plugin does not allow to play streaming audio on iOS. This can do just that.
 
-#Installation
-Run 
-    cordova plugin add https://github.com/kshabunov/cordova-audio-stream-plugin.git
+## Installation
+
+```
+cordova plugin add https://github.com/kshabunov/cordova-audio-stream-plugin.git`
+```
     
-#Use it
-    my_stream = new Stream("http://your_live_radio_streeam", onSuccess, onError);
-    // Play audio
-    my_stream.play();
-    function onSuccess() {
-        console.log("playAudio():Audio Success");
-    }
-    function onError(error) {
-        alert('code: '    + error.code    + '\n' +
-        'message: ' + error.message + '\n');
-    }
+## Usage
 
-You can also stop the music with
-    my_stream.stop();
+```javascript
+
+  // Create new instance
+  function onSuccess() {
+    console.log("Audio streaming success");
+  }
+  function onError(error) {
+    console.log('Audio streaming success error, code: ' + error.code + ', message: ' + error.message);
+  }
+  var audioStream = new Stream("http://your.audio/stream", onSuccess, onError);
+  
+  // Play audio
+  audioStream.play();
+
+  // Stop playback
+  audioStream.stop();
+  
+```
