@@ -19,15 +19,14 @@
 -->
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-xmlns:android="http://schemas.android.com/apk/res/android"
-id="com.keosu.cordova.stream"
+id="cordova-audio-stream-plugin"
     version="0.1">
 
-    <name>Stream</name>
-    <description>Stream audio plugin for Cordova</description>
+    <name>Audio Streaming</name>
+    <description>Audio streaming plugin for Cordova</description>
     <license>Apache 2.0</license>
     <keywords>cordova,stream,radio</keywords>
-    <repo>https://git-wip-us.apache.org/repos/asf/cordova-plugin-media.git</repo>    
+    <repo>https://github.com/kshabunov/cordova-audio-stream-plugin.git</repo>    
     
     <js-module src="www/Stream.js" name="Stream">
         <clobbers target="window.Stream" />
