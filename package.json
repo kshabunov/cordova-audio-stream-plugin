@@ -3,8 +3,6 @@
   "description": "This Cordova plugin allows you to stream audio, native player on iOS.",
   "version": "0.1.0",
   "license": "Apache-2.0",
-  "dependencies": {},
-  "devDependencies": {}
   "cordova": {
     "id": "cordova-audio-stream-plugin",
     "platforms": [
