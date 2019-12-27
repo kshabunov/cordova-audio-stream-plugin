@@ -26,7 +26,7 @@ The popular cordova-plugin-media plugin does not allow to play streaming audio o
 ## Installation
 
 ```
-cordova plugin add https://github.com/kshabunov/cordova-audio-stream-plugin.git`
+cordova plugin add https://github.com/kshabunov/cordova-audio-stream-plugin.git
 ```
     
 ## Usage
