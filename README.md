@@ -19,9 +19,14 @@
 
 # cordova-audio-stream-plugin
 
-Forked from https://github.com/keosuofficial/cordova-audio-stream-plugin to make it work in my project.
+Forked from https://github.com/keosuofficial/cordova-audio-stream-plugin
+to tailor it for my needs.
 
-As of today (December 2019), the popular [cordova-plugin-media](https://github.com/apache/cordova-plugin-media) plugin can not stream audio on iOS. The [Cordova Streaming Media plugin](https://github.com/nchutchind/cordova-plugin-streaming-media) can stream, but does it in the full-screen mode. This plugin does just one thing: streaming audio on iOS platform with no UI attached.
+As of today (December 2019), the popular [Cordova Media plugin](https://github.com/apache/cordova-plugin-media)
+can not stream audio on iOS.
+The [Cordova Streaming Media plugin](https://github.com/nchutchind/cordova-plugin-streaming-media) can stream,
+but it always does it in the full-screen mode.
+This plugin is meant to do just one thing: playback streaming audio on iOS platform with no UI attached.
 
 ## Installation
 
@@ -34,13 +39,13 @@ cordova plugin add https://github.com/kshabunov/cordova-audio-stream-plugin.git
 ```javascript
 
   // Create new instance
-  function onSuccess() {
-    console.log("Audio streaming success");
+  function onStart() {
+    console.log("Audio streaming started");
   }
   function onError(error) {
     console.log('Audio streaming error, code: ' + error.code + ', message: ' + error.message);
   }
-  var audioStream = new Stream("http://your.audio/stream", onSuccess, onError);
+  var audioStream = new Stream("http://your.audio/stream", onStart, onError);
   
   // Play audio
   audioStream.play();

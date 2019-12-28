@@ -17,58 +17,55 @@
  * specific language governing permissions and limitations
  * under the License.
  *
-*/
+ */
 
-var argscheck = require('cordova/argscheck'),
-    utils = require('cordova/utils'),
-    exec = require('cordova/exec');
+var argscheck = require('cordova/argscheck');
+var utils = require('cordova/utils');
+var exec = require('cordova/exec');
 
 var mediaObjects = {};
 
 /**
- * This class provides access to the device media, interfaces to both sound and video
- *
  * @constructor
- * @param src                   The file name or url to play
- * @param successCallback       The callback to be called when the file is done playing or recording.
- *                                  successCallback()
- * @param errorCallback         The callback to be called if there is an error.
- *                                  errorCallback(int errorCode) - OPTIONAL
- * @param statusCallback        The callback to be called when media status has changed.
- *                                  statusCallback(int statusCode) - OPTIONAL
+ * @param src the url to play
+ * @param onStart the callback to be called on playing start.
+ * @param errorCallback the callback to be called on error.
  */
-var Stream = function(src, successCallback, errorCallback, statusCallback) {
-    argscheck.checkArgs('SFFF', 'Stream', arguments);
-    this.id = utils.createUUID();
-    mediaObjects[this.id] = this;
-    this.src = src;
-    this.successCallback = successCallback;
-    this.errorCallback = errorCallback;
-    this.statusCallback = statusCallback;
-    exec(null, this.errorCallback, "Stream", "create", [this.id, this.src]);
+var Stream = function(src, onStart, errorCallback) {
+  argscheck.checkArgs('SFF', 'Stream', arguments);
+  this.id = utils.createUUID();
+  mediaObjects[this.id] = this;
+  this.src = src;
+  this.onStart = onStart;
+  this.errorCallback = errorCallback;
+  exec(null, this.errorCallback, "Stream", "create", [this.id, this.src]);
 };
 
 
 // "static" function to return existing objs.
 Stream.get = function(id) {
-    return mediaObjects[id];
+  return mediaObjects[id];
 };
 
 /**
  * Start or resume playing audio file.
  */
-Stream.prototype.play = function(options) {
-    exec(null, null, "Stream", "startPlayingAudio", [this.id, this.src, options]);
+Stream.prototype.play = function() {
+  exec(null, this.errorCallback, "Stream", "startPlayingAudio", [this.id, this.src]);
 };
 
 /**
  * Stop playing audio file.
  */
 Stream.prototype.stop = function() {
-    var me = this;
-    exec(function() {
-    }, this.errorCallback, "Stream", "stopPlayingAudio", [this.id]);
+  exec(null, this.errorCallback, "Stream", "stopPlayingAudio", []);
 };
 
+Stream.onStart = function(id) {
+  var media = mediaObjects[id];
+  if (media && media.onStart) {
+    media.onStart();
+  }
+};
 
 module.exports = Stream;

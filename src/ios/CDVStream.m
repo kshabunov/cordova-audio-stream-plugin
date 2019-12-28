@@ -26,67 +26,79 @@ under the License.
 - (void)create:(CDVInvokedUrlCommand*)command
 {
 	[self.commandDelegate runInBackground:^{
-    	CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
-    	[self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
-    }];
-
+    CDVPluginResult* result = [CDVPluginResult resultWithStatus:CDVCommandStatus_OK];
+    [self.commandDelegate sendPluginResult:result callbackId:command.callbackId];
+  }];
 }
 
 - (void)startPlayingAudio:(CDVInvokedUrlCommand*)command
 {
 
-	[self.commandDelegate runInBackground:^{
-			NSLog(@"start playing");
+  [self.commandDelegate runInBackground:^{
 
-    	NSString* resourcePath = [command.arguments objectAtIndex:1];
-    	NSURL* resourceURL = [NSURL URLWithString:resourcePath];
-    	NSLog(@"Now Playing '%@'", resourcePath);
-    	if([self objAVPlayer] == nil){
-    		[self setObjAVPlayer:[[AVPlayer alloc] initWithURL:resourceURL]];
-				[[self objAVPlayer] addObserver:self forKeyPath:@"status" options:0 context:nil];
-				MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
-				[commandCenter.playCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
-	      		[[self objAVPlayer] play];
-	          return MPRemoteCommandHandlerStatusSuccess;
-	        }];
-	        [commandCenter.pauseCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
-	            [[self objAVPlayer] pause];
-	            return MPRemoteCommandHandlerStatusSuccess;
-	        }];
-		}else{
-		 	[[self objAVPlayer] play];
-			//[[UIApplication sharedApplication]beginReceivingRemoteControlEvents];
+    NSString* mediaId = [command argumentAtIndex:0];
+    NSString* resourcePath = [command.arguments objectAtIndex:1];
+    NSURL* resourceURL = [NSURL URLWithString:resourcePath];
 
-		}
-    	return;
-    }];
-}
-- (void) observeValueForKeyPath:(NSString *)keyPath
-                                ofObject:(id)object
-                                change:(NSDictionary  *)change
-                                context:(void *)context {
+    NSLog(@"Starting playback '%@'", resourcePath);
 
-    if (object == [self objAVPlayer] && [keyPath isEqualToString:@"status"]) {
-        if ([self objAVPlayer].status == AVPlayerStatusReadyToPlay) {
-        	//Audio session is set to allow streaming in background
-            AVAudioSession *audioSession = [AVAudioSession sharedInstance];
-            [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
-        	[[UIApplication sharedApplication]beginReceivingRemoteControlEvents];
-
-
-            [[self objAVPlayer] play];
-        }
-        if ([self objAVPlayer].status == AVPlayerStatusFailed) {
-            NSLog(@"Something went wrong: %@", [self objAVPlayer].error);
-        }
+    if([self objAVPlayer] == nil) {
+      [self setObjAVPlayer:[[AVPlayer alloc] initWithURL:resourceURL]];
+      [[self objAVPlayer] addObserver:self forKeyPath:@"status" options:0 context:nil];
+      MPRemoteCommandCenter *commandCenter = [MPRemoteCommandCenter sharedCommandCenter];
+      [commandCenter.playCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
+        [[self objAVPlayer] play];
+        return MPRemoteCommandHandlerStatusSuccess;
+      }];
+      [commandCenter.pauseCommand addTargetWithHandler:^MPRemoteCommandHandlerStatus(MPRemoteCommandEvent * _Nonnull event) {
+        [[self objAVPlayer] pause];
+        return MPRemoteCommandHandlerStatusSuccess;
+      }];
     }
+    else {
+      [[self objAVPlayer] play];
+      //[[UIApplication sharedApplication]beginReceivingRemoteControlEvents];
+    }
+
+    [self onStart:mediaId];
+
+    return;
+
+  }];
 }
 
+- (void) observeValueForKeyPath:(NSString *)keyPath
+  ofObject:(id)object
+  change:(NSDictionary  *)change
+  context:(void *)context
+{
+  if (object == [self objAVPlayer] && [keyPath isEqualToString:@"status"]) {
+    if ([self objAVPlayer].status == AVPlayerStatusReadyToPlay) {
+      //Audio session is set to allow streaming in background
+      AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+      [audioSession setCategory:AVAudioSessionCategoryPlayback error:nil];
+      [[UIApplication sharedApplication]beginReceivingRemoteControlEvents];
+      [[self objAVPlayer] play];
+    }
+    if ([self objAVPlayer].status == AVPlayerStatusFailed) {
+      NSLog(@"Something went wrong: %@", [self objAVPlayer].error);
+    }
+  }
+}
 
 - (void)stopPlayingAudio:(CDVInvokedUrlCommand*)command
 {
-	NSLog(@"Stop playing");
+	NSLog(@"Stopping playback");
 	[[self objAVPlayer] pause];
+}
+
+- (void)onStart:(NSString*)mediaId
+{
+  NSString* jsString = [
+    NSString stringWithFormat:@"%@(\"%@\");",
+    @"cordova.require('cordova-audio-stream-plugin.Stream').onStart", mediaId
+  ];
+  [self.commandDelegate evalJs:jsString];
 }
 
 @end
