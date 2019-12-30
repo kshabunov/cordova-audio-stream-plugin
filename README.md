@@ -45,7 +45,7 @@ cordova plugin add https://github.com/kshabunov/cordova-plugin-ios-streaming-aud
   function onError(error) {
     console.log('Audio streaming error, code: ' + error.code + ', message: ' + error.message);
   }
-  var audioStream = new Stream("http://your.audio/stream", onStart, onError);
+  var audioStream = new AudioStream("http://your.audio/stream", onStart, onError);
   
   // Start streaming
   audioStream.play();

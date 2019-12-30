@@ -29,7 +29,7 @@ id="cordova-plugin-ios-streaming-audio"
     <repo>https://github.com/kshabunov/cordova-plugin-ios-streaming-audio.git</repo>
     
     <js-module src="www/AudioStream.js" name="AudioStream">
-        <clobbers target="cordova.audiostream" />
+        <clobbers target="window.AudioStream" />
     </js-module>
      
      <!-- ios -->
