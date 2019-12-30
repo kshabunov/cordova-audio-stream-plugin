@@ -27,45 +27,45 @@ var mediaObjects = {};
 
 /**
  * @constructor
- * @param src the url to play
+ * @param src the stream url
  * @param onStart the callback to be called on playing start.
  * @param errorCallback the callback to be called on error.
  */
-var Stream = function(src, onStart, errorCallback) {
-  argscheck.checkArgs('SFF', 'Stream', arguments);
+var AudioStream = function(src, onStart, errorCallback) {
+  argscheck.checkArgs("SFF", "AudioStream", arguments);
   this.id = utils.createUUID();
   mediaObjects[this.id] = this;
   this.src = src;
   this.onStart = onStart;
   this.errorCallback = errorCallback;
-  exec(null, this.errorCallback, "Stream", "create", [this.id, this.src]);
+  exec(null, this.errorCallback, "AudioStream", "create", [this.id, this.src]);
 };
 
 
 // "static" function to return existing objs.
-Stream.get = function(id) {
+AudioStream.get = function(id) {
   return mediaObjects[id];
 };
 
 /**
  * Start or resume playing audio file.
  */
-Stream.prototype.play = function() {
-  exec(null, this.errorCallback, "Stream", "startPlayingAudio", [this.id, this.src]);
+AudioStream.prototype.play = function() {
+  exec(null, this.errorCallback, "AudioStream", "startPlayingAudio", [this.id, this.src]);
 };
 
 /**
  * Stop playing audio file.
  */
-Stream.prototype.stop = function() {
-  exec(null, this.errorCallback, "Stream", "stopPlayingAudio", []);
+AudioStream.prototype.stop = function() {
+  exec(null, this.errorCallback, "AudioStream", "stopPlayingAudio", []);
 };
 
-Stream.onStart = function(id) {
+AudioStream.onStart = function(id) {
   var media = mediaObjects[id];
   if (media && media.onStart) {
     media.onStart();
   }
 };
 
-module.exports = Stream;
+module.exports = AudioStream;

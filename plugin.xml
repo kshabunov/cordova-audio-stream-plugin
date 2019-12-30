@@ -19,23 +19,23 @@
 -->
 
 <plugin xmlns="http://apache.org/cordova/ns/plugins/1.0"
-id="cordova-audio-stream-plugin"
-    version="0.1">
+id="cordova-plugin-ios-streaming-audio"
+    version="0.1.0">
 
-    <name>Audio Streaming</name>
-    <description>Audio streaming plugin for Cordova</description>
+    <name>iOS Streaming Audio</name>
+    <description>iOS Streaming Audio plugin for Cordova</description>
     <license>Apache 2.0</license>
-    <keywords>cordova,stream,radio</keywords>
-    <repo>https://github.com/kshabunov/cordova-audio-stream-plugin.git</repo>    
+    <keywords>cordova,stream,audio</keywords>
+    <repo>https://github.com/kshabunov/cordova-plugin-ios-streaming-audio.git</repo>
     
-    <js-module src="www/Stream.js" name="Stream">
-        <clobbers target="window.Stream" />
+    <js-module src="www/AudioStream.js" name="AudioStream">
+        <clobbers target="cordova.audiostream" />
     </js-module>
      
      <!-- ios -->
      <platform name="ios">    
          <config-file target="config.xml" parent="/*">
-             <feature name="Stream">
+             <feature name="AudioStream">
                  <param name="ios-package" value="CDVStream" /> 
              </feature>
          </config-file>

@@ -96,7 +96,7 @@ under the License.
 {
   NSString* jsString = [
     NSString stringWithFormat:@"%@(\"%@\");",
-    @"cordova.require('cordova-audio-stream-plugin.Stream').onStart", mediaId
+    @"cordova.require('cordova-plugin-ios-streaming-audio.AudioStream').onStart", mediaId
   ];
   [self.commandDelegate evalJs:jsString];
 }

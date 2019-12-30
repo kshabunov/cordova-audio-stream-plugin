@@ -17,7 +17,7 @@
          under the License.
 -->
 
-# cordova-audio-stream-plugin
+# Cordova iOS Streaming Audio plugin
 
 Forked from https://github.com/keosuofficial/cordova-audio-stream-plugin
 to tailor it for my needs.
@@ -31,7 +31,7 @@ This plugin is meant to do just one thing: playback streaming audio on iOS platf
 ## Installation
 
 ```
-cordova plugin add https://github.com/kshabunov/cordova-audio-stream-plugin.git
+cordova plugin add https://github.com/kshabunov/cordova-plugin-ios-streaming-audio.git
 ```
     
 ## Usage example
@@ -47,10 +47,10 @@ cordova plugin add https://github.com/kshabunov/cordova-audio-stream-plugin.git
   }
   var audioStream = new Stream("http://your.audio/stream", onStart, onError);
   
-  // Play audio
+  // Start streaming
   audioStream.play();
 
-  // Stop playback
+  // Stop streaming
   audioStream.stop();
   
 ```

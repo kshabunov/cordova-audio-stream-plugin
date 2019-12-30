@@ -1,12 +1,19 @@
 {
-  "name": "cordova-audio-stream-plugin",
-  "description": "This Cordova plugin allows you to stream audio, native player on iOS.",
+  "name": "cordova-plugin-ios-streaming-audio",
+  "description": "Cordova iOS Streaming Audio plugin.",
   "version": "0.1.0",
   "license": "Apache-2.0",
   "cordova": {
-    "id": "cordova-audio-stream-plugin",
+    "id": "cordova-plugin-ios-streaming-audio",
     "platforms": [
       "ios"
     ]
-  }
+  },
+  "keywords": [
+    "cordova",
+    "media",
+    "audio",
+    "ecosystem:cordova",
+    "cordova-ios"
+  ]
 }
